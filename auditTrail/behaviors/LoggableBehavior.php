@@ -63,7 +63,7 @@ class LoggableBehavior extends CActiveRecordBehavior
 					$log->action 	= 'CHANGE';
 					$log->model 	= get_class($this->Owner);
 					$log->model_id 	= $this->Owner->getPrimaryKey();
-					$log->field 	= $this->owner->getAttributeLabel($name);
+					$log->field 	= $name;
 					$log->stamp 	= date('Y-m-d H:i:s');
 					$log->user_id 	= $userid;
 
@@ -95,7 +95,7 @@ class LoggableBehavior extends CActiveRecordBehavior
 				$log->action	= 'SET';
 				$log->model		= get_class($this->Owner);
 				$log->model_id	= $this->Owner->getPrimaryKey();
-				$log->field		= $this->owner->getAttributeLabel($name);
+				$log->field		= $name;
 				$log->stamp		= date('Y-m-d H:i:s');
 				$log->user_id	= $userid;
 				$log->save();
