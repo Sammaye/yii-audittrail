@@ -1,7 +1,7 @@
 audittrail
 ==========
 
-This is basically a modification of a previous extension made by (MadSkillsTisdale)[http://www.yiiframework.com/user/597/] at http://www.yiiframework.com/extension/audittrail.
+This is basically a modification of a previous extension made by [MadSkillsTisdale](http://www.yiiframework.com/user/597/) at http://www.yiiframework.com/extension/audittrail.
 
 I have basically cleaned up some of the code and made a few additions to the behaviour bundled within this extension.
 
