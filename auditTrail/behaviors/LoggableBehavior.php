@@ -52,6 +52,10 @@ class LoggableBehavior extends CActiveRecordBehavior
 					$old = '';
 				}
 
+				if(empty($oldattributes[$name]) && empty($newattributes[$name])){
+					continue;
+				}
+
 				if ($value != $old) {
 					$log			= new AuditTrail();
 					$log->old_value = $old;
@@ -59,7 +63,7 @@ class LoggableBehavior extends CActiveRecordBehavior
 					$log->action 	= 'CHANGE';
 					$log->model 	= get_class($this->Owner);
 					$log->model_id 	= $this->Owner->getPrimaryKey();
-					$log->field 	= $name;
+					$log->field 	= $this->owner->getAttributeLabel($name);
 					$log->stamp 	= date('Y-m-d H:i:s');
 					$log->user_id 	= $userid;
 
@@ -80,13 +84,18 @@ class LoggableBehavior extends CActiveRecordBehavior
 			$log->save();
 
 			foreach ($newattributes as $name => $value) {
+
+				if(empty($value)){
+					continue;
+				}
+
 				$log			= new AuditTrail();
 				$log->old_value = '';
 				$log->new_value = $value;
 				$log->action	= 'SET';
 				$log->model		= get_class($this->Owner);
 				$log->model_id	= $this->Owner->getPrimaryKey();
-				$log->field		= $name;
+				$log->field		= $this->owner->getAttributeLabel($name);
 				$log->stamp		= date('Y-m-d H:i:s');
 				$log->user_id	= $userid;
 				$log->save();

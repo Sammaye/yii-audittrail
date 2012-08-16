@@ -31,3 +31,10 @@ But then add either a `ignored` or `allowed` (or both) to the behaviour like so:
 The names put into the `allowed` and `ignored` parameters of the behaviour represent field names.
 
 As you will notice I allow the `ns_purchase_description` field but also ignore it. When you use the fields in this way `ignored` will replace the `allowed` and this field will be omitted.
+
+## Other Additions
+
+- The behaviour will not log where old AND new attributes are null on update
+- The behaviour will not log where new attributes are null on create
+
+Both of these are designed to save DB space.
