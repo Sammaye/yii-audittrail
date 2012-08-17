@@ -49,7 +49,7 @@ Simply use the behaviour within a model like:
 
 ### Epilogue
 
-If your user class is not `User` then you will need to change the relation within the `AuditLog` model to suite your needs.
+If your user class is not `User` then you may (depending on your setup) need to change the relation within the `AuditLog` model to suite your needs.
 
 ## API
 
