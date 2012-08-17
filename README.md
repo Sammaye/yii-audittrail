@@ -62,7 +62,7 @@ Some people don't actually have defined users but do have an attribute of the au
   		'userAttribute' => 'name'
 	)
 
-### Sotring Timestamps
+### Storing Timestamps
 
 The date of the audit can be changed to used timestamps instead using:
 
