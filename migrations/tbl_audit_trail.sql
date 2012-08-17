@@ -50,6 +50,14 @@ INSERT INTO `tbl_audit_trail` (`id`, `old_value`, `new_value`, `action`, `model`
 (4, '1', '2', 'CHANGE', 'Product', 'version', '2012-08-16 03:30:27', '1', '199718'),
 (5, '2012-08-08', '2012-08-17', 'CHANGE', 'Product', 'status_last_confirmed', '2012-08-16 03:45:52', '1', '199718');
 
+ALTER TABLE `nhbs_w`.`tbl_audit_trail` 
+
+ADD INDEX `idx_audit_trail_user_id` (`user_id` ASC) 
+, ADD INDEX `idx_audit_trail_model_id` (`model_id` ASC) 
+, ADD INDEX `idx_audit_trail_model` (`model` ASC) 
+, ADD INDEX `idx_audit_trail_field` (`field` ASC) 
+, ADD INDEX `idx_audit_trail_action` (`action` ASC) 
+
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
