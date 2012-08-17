@@ -39,19 +39,7 @@ CREATE TABLE IF NOT EXISTS `tbl_audit_trail` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=6 ;
 
---
--- Dumping data for table `tbl_audit_trail`
---
-
-INSERT INTO `tbl_audit_trail` (`id`, `old_value`, `new_value`, `action`, `model`, `field`, `stamp`, `user_id`, `model_id`) VALUES
-(1, '1', '2', 'CHANGE', 'Product', 'version', '2012-08-16 03:29:34', '1', '199718'),
-(2, '2', '1', 'CHANGE', 'Product', 'version', '2012-08-16 03:30:02', '1', '199718'),
-(3, 'Ecology and Conservation of Estuarine Ecosystems:Lake St. Lucia as a Model/Perissinotto HB', 'Ecology and Conservation of Estuarine Ecosystems:Lake St. Lucia as a Model/Perissinotto PB', 'CHANGE', 'Product', 'ns_purchase_description', '2012-08-16 03:30:02', '1', '199718'),
-(4, '1', '2', 'CHANGE', 'Product', 'version', '2012-08-16 03:30:27', '1', '199718'),
-(5, '2012-08-08', '2012-08-17', 'CHANGE', 'Product', 'status_last_confirmed', '2012-08-16 03:45:52', '1', '199718');
-
-ALTER TABLE `nhbs_w`.`tbl_audit_trail` 
-
+ALTER TABLE `tbl_audit_trail` 
 ADD INDEX `idx_audit_trail_user_id` (`user_id` ASC) 
 , ADD INDEX `idx_audit_trail_model_id` (`model_id` ASC) 
 , ADD INDEX `idx_audit_trail_model` (`model` ASC) 
