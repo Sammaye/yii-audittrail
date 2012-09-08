@@ -98,7 +98,7 @@ class LoggableBehavior extends CActiveRecordBehavior{
 		$log->model		= get_class($this->getOwner()); // Gets a plain text version of the model name
 		$log->model_id	= $this->getNormalizedPk();
 		$log->field		= $name;
-		$log->stamp		= $this->storeTimestamp ? $time() : date($this->dateFormat); // If we are storing a timestamp lets get one else lets get the date
+		$log->stamp		= $this->storeTimestamp ? time() : date($this->dateFormat); // If we are storing a timestamp lets get one else lets get the date
 		$log->user_id	= $this->getUserId(); // Lets get the user id
 		return $log->save();
 	}
