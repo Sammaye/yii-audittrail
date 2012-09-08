@@ -43,7 +43,7 @@ class AuditTrail extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('action, model, field, stamp, model_id', 'required'),
+			array('action, model, stamp, model_id', 'required'),
 			array('action', 'length', 'max'=>255),
 			array('model', 'length', 'max'=>255),
 			array('field', 'length', 'max'=>255),
