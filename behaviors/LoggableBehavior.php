@@ -52,6 +52,10 @@ class LoggableBehavior extends CActiveRecordBehavior{
 
 		// Now lets actually write the attributes
 		$this->auditAttributes($newattributes, $oldattributes);
+		
+		// Reset old attributes to handle the case with the same model instance updated multiple times
+		$this->setOldAttributes($this->getOwner()->getAttributes());
+				
 		return parent::afterSave($event);
 	}
 
@@ -78,7 +82,7 @@ class LoggableBehavior extends CActiveRecordBehavior{
 	}
 
 	public function afterFind($event){
-		$this->setOldAttributes($this->Owner->getAttributes());
+		$this->setOldAttributes($this->getOwner()->getAttributes());
 		return parent::afterFind($event);
 	}
 
