@@ -21,7 +21,7 @@ class m110517_155003_create_tables_audit_trail extends CDbMigration
 				'new_value' => 'text',
 				'action' => 'string NOT NULL',
 				'model' => 'string NOT NULL',
-				'field' => 'string NOT NULL',
+				'field' => 'string',
 				'stamp' => 'datetime NOT NULL',
 				'user_id' => 'string',
 				'model_id' => 'string NOT NULL',

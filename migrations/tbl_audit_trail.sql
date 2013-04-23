@@ -32,7 +32,7 @@ CREATE TABLE IF NOT EXISTS `tbl_audit_trail` (
   `new_value` text COLLATE utf8_unicode_ci,
   `action` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `model` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
-  `field` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `field` varchar(255) COLLATE utf8_unicode_ci,
   `stamp` datetime NOT NULL,
   `user_id` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
   `model_id` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
