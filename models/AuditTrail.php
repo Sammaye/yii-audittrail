@@ -32,7 +32,10 @@ class AuditTrail extends CActiveRecord
 	 */
 	public function tableName()
 	{
-		return 'tbl_audit_trail';
+		if ( isset(Yii::app()->params['AuditTrail']) && isset(Yii::app()->params['AuditTrail']['table']) )
+		    return Yii::app()->params['AuditTrail']['table'];
+		else
+		    return 'tbl_audit_trail';
 	}
 
 	/**
