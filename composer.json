@@ -1,7 +1,7 @@
 {
     "name": "sammaye/auditrail2",
     "description": "A reload of the popular audit trail extension",
-    "keywords": ["audit","trail","yii"],
+    "keywords": ["audit","trail","yii","phundament"],
     "type": "yii-extension",
     "license": "BSD-2-Clause",
     "authors": [
