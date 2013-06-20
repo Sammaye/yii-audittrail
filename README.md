@@ -1,20 +1,20 @@
 audittrail
 ==========
 
-This is basically a modification of a previous extension made by [MadSkillsTisdale](http://www.yiiframework.com/user/597/) at http://www.yiiframework.com/extension/audittrail.
+This is basically a modification of a previous extension made by [MadSkillsTisdale](http://www.yiiframework.com/user/597/) at [http://www.yiiframework.com/extension/audittrail](http://www.yiiframework.com/extension/audittrail).
 
 I have basically cleaned up some of the code and made a few additions to the behaviour bundled within this extension.
 
 ## Installing the extension
 
-The method of installation has changed. I have removed the need to install a module class since:
+The method of installation has changed. I have removed the need to install a module since:
 
-- It only provided global configration variables for the audit log widget
+- It only provided global configuration variables for the audit log widget
 - It was extra bloat that didn't justify the needs
-- I found that in a real system you wouldn't want a page showing all audit log entries since the audit logs would grow to unmanagable sizes greater than SQL could truely handle in one page
+- I found that in a real system you wouldn't want a page showing all audit log entries since the audit logs
 - The audit log is quite easy to add to a page using `CGridView`
 
-As such for these reasons the module itself has been deleted.
+As such, for these reasons, the module itself has been deleted.
 
 ### Step 1
 
@@ -24,7 +24,7 @@ To install you must first choose a folder in which to place this repository. I h
 
 Since this seems most right to me. Clone this repository to that location.
 
-### step 2
+### Step 2
 
 Time to install the table. You can use the migration file provided by the original author of this extension or you can use the SQL file bundled within the migrations folder. Simply
 run it on your DB server (using PHPMyAdmin or something) and watch the magic unfold.
@@ -53,6 +53,9 @@ If your user class is not `User` then you may (depending on your setup) need to 
 
 ## API
 
+Please note that the below snippets are snippets only and are not tested in a real environment. It is recommend that you use this section as reference and documentation only, do not
+copy and paste from here.
+
 ### Custom User Attributes
 
 Some people don't actually have defined users but do have an attribute of the auditable model that would define a unique identification of who edited it. For this end you can use:
@@ -64,7 +67,7 @@ Some people don't actually have defined users but do have an attribute of the au
 
 ### Storing Timestamps
 
-The date of the audit can be changed to used timestamps instead using:
+The date of the audit log can be changed to used timestamps instead using:
 
 	'LoggableBehavior'=> array(
 		'class' => 'site.backend.extensions.modules.auditTrail.behaviors.LoggableBehavior',
@@ -88,7 +91,7 @@ To do this include the behaviour in your models like you normally would:
 
     'LoggableBehavior'=> 'site.backend.extensions.modules.auditTrail.behaviors.LoggableBehavior'
 
-But then add either a `ignored` or `allowed` (or both) to the behaviour like so:
+But then add either an `ignored` or `allowed` (or both) list of fields to the behaviour like so:
 
 	'LoggableBehavior'=> array(
 		'class' => 'site.backend.extensions.modules.auditTrail.behaviors.LoggableBehavior',
@@ -109,47 +112,51 @@ As you will notice I allow the `ns_purchase_description` field but also ignore i
 
 ## Printing out the audit log
 
-Since this no longer uses a module to do its work there is not global configuration for the previously inbuilt audit log to work from. Instead you can insert an audit log onto a models
-page like (as an example only, showing an audit of changes to a book title and it's products on a book title page):
+Since this no longer uses a module to do its work there is no global configuration for the previously inbuilt audit log to work from. Instead you can insert an audit log
+like (as an example only, showing an audit of changes to a book title and it's products on a book title page):
 
-    <?php
-
-	$model_ids = array($model->id);
+	$model_ids = array(array($model->id, 'Title'));
 	foreach($model->products as $id => $product){
-		$model_ids[] = $product->id;
+	    $model_ids[] = array($product->id, 'Product');
 	}
 
 	$criteria=new CDbCriteria(array(
-		'order'=>'stamp DESC',
-		'with'=>array('user'),
+	    'order'=>'stamp DESC',
+	    'with'=>array('user'),
 	));
-	$criteria->addInCondition('model_id', $model_ids);
+	$param_id = 0;
+	foreach( $model_ids as $id_pair ) {
+	    $criteria->addCondition( '( model_id = :id' . $param_id . ' AND model = :model' . $param_id . ' )', 'OR' );
+	    $criteria->params[ ':id' . $param_id ] = $id_pair[0];
+	    $criteria->params[ ':model' . $param_id ] = $id_pair[1];
+	    $param_id++;
+	}
 
 	$this->widget('zii.widgets.grid.CGridView', array(
-		'id'=>'title-grid',
-		'dataProvider'=>new CActiveDataProvider('AuditTrail', array(
-		    'criteria'=>$criteria,
-			'pagination'=>array(
-		        'pageSize'=>100,
-		    )
-		)),
-		'columns'=>array(
-			array(
-				'name' => 'Author',
-				'value' => '$data->user ? $data->user->email : ""'
-			),
-			'model',
-			'model_id',
-			'action',
-			array(
-				'name' => 'field',
-				'value' => '$data->getParent()->getAttributeLabel($data->field)'
-			),
-			'old_value',
-			'new_value',
-			array(
-				'name' => 'Date Changed',
-				'value' => 'date("d-m-Y h:i:s", strtotime($data->stamp))'
-			)
-		),
-	)); ?>
+	    'id'=>'title-grid',
+	    'dataProvider'=>new CActiveDataProvider('AuditTrail', array(
+	        'criteria'=>$criteria,
+	        'pagination'=>array(
+	            'pageSize'=>100,
+	        )
+	    )),
+	    'columns'=>array(
+	        array(
+	            'name' => 'Author',
+	            'value' => '$data->user ? $data->user->email : ""'
+	        ),
+	        'model',
+	        'model_id',
+	        'action',
+	        array(
+	            'name' => 'field',
+	            'value' => '$data->getParent()->getAttributeLabel($data->field)'
+	        ),
+	        'old_value',
+	        'new_value',
+	        array(
+	            'name' => 'Date Changed',
+	            'value' => 'date("d-m-Y H:i:s", strtotime($data->stamp))'
+	        )
+	    ),
+	));
