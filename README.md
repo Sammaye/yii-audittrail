@@ -16,6 +16,10 @@ The method of installation has changed. I have removed the need to install a mod
 
 As such, for these reasons, the module itself has been deleted.
 
+### Composer
+
+This extension is listed on [packagist](https://packagist.org/packages/sammaye/auditrail2).
+
 ### Step 1
 
 To install you must first choose a folder in which to place this repository. I have chosen:
