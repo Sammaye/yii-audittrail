@@ -6,6 +6,7 @@ class LoggableBehavior extends CActiveRecordBehavior{
 
 	public $allowed = array();
 	public $ignored = array();
+	public $ignored_class = array();
 
 	public $dateFormat = 'Y-m-d H:i:s';
 	public $userAttribute = null;
@@ -16,9 +17,16 @@ class LoggableBehavior extends CActiveRecordBehavior{
 	public function afterSave($event){
 		$allowedFields = $this->allowed;
 		$ignoredFields = $this->ignored;
+		$ignoredClasses = $this->ignored_class;
 
 		$newattributes = $this->getOwner()->getAttributes();
 		$oldattributes = $this->getOldAttributes();
+
+		// Lets check if the whole class should be ignored
+		if(sizeof($ignoredClasses) > 0){
+				if(array_search(get_class($this->getOwner()), $ignoredClasses) !== false)
+					return;
+		}
 
 		// Lets unset fields which are not allowed
 		if(sizeof($allowedFields) > 0){
