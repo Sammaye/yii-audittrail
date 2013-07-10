@@ -114,6 +114,21 @@ The names put into the `allowed` and `ignored` parameters of the behaviour repre
 
 As you will notice I allow the `ns_purchase_description` field but also ignore it. When you use the fields in this way `ignored` will replace the `allowed` and this field will be omitted.
 
+## Ignoring a whole class
+
+This is useful if you put the behaviour in a class that extends CActiveRecord which all your own models extend from.  This is useful in cases where you want ALL your classes to share the same core (like this behaviour) without having to specify it in every model you create.
+
+'LoggableBehavior'=> array(
+		'class' => 'site.backend.extensions.modules.auditTrail.behaviors.LoggableBehavior',
+  			'ignored_class' => array(
+						'ErrorLog',  // I use this to log error messages to MYSQL, no need to keep a log of this
+			),
+
+)
+
+	
+	
+	
 ## Printing out the audit log
 
 Since this no longer uses a module to do its work there is no global configuration for the previously inbuilt audit log to work from. Instead you can insert an audit log
