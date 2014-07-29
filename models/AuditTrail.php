@@ -92,6 +92,10 @@ class AuditTrail extends CActiveRecord
 		$model_name = $this->model;
 		return $model_name::model();
 	}
+    
+    function findModel(){
+        return $this->getParent()->findByPK($this->model_id);
+    }
 
 	/**
 	 * Retrieves a list of models based on the current search/filter conditions.
