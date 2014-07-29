@@ -97,6 +97,28 @@ class AuditTrail extends CActiveRecord
         return $this->getParent()->findByPK($this->model_id);
     }
 
+    function getOldValue(){
+        $model = $this->findModel();
+        $relations = $model->relations();        
+        foreach($relations as $name=>$relation){
+            if ($relation[2] == $this->field){
+                return $relation[1]::model()->findByPK($this->old_value);
+            }
+        }
+        return $this->old_value;
+    }
+
+    function getNewValue(){
+        $model = $this->findModel();
+        $relations = $model->relations();        
+        foreach($relations as $name=>$relation){
+            if ($relation[2] == $this->field){
+                return $relation[1]::model()->findByPK($this->new_value);
+            }
+        }
+        return $this->new_value;
+    }
+    
 	/**
 	 * Retrieves a list of models based on the current search/filter conditions.
 	 * @return CActiveDataProvider the data provider that can return the models based on the search/filter conditions.
