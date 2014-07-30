@@ -37,7 +37,7 @@ CREATE TABLE IF NOT EXISTS `tbl_audit_trail` (
   `user_id` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
   `model_id` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=6 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1;
 
 ALTER TABLE `tbl_audit_trail` 
 ADD INDEX `idx_audit_trail_user_id` (`user_id` ASC) 
