@@ -175,3 +175,23 @@ like (as an example only, showing an audit of changes to a book title and it's p
 	        )
 	    ),
 	));
+
+For more user-friendliness in the CGridView, you can use these columns:
+
+1. Retrieves the changed model and shows its string representation:
+
+        array(
+            'header' => Yii::t('app', 'Name'),
+            'value' => '$data->findModel()',
+        ),
+
+2. If the field is a relation, find the related model and use that instead of showing the FK value:
+
+        array(
+            'name' => 'old_value',
+            'value' => '$data->getOldValue()', 
+        ),
+        array(
+            'name' => 'new_value',
+            'value' => '$data->getNewValue()',
+        ),

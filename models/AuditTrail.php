@@ -76,15 +76,15 @@ class AuditTrail extends CActiveRecord
 	public function attributeLabels()
 	{
 		return array(
-			'id' => 'ID',
-			'old_value' => 'Old Value',
-			'new_value' => 'New Value',
-			'action' => 'Action',
-			'model' => 'Type',
-			'field' => 'Field',
-			'stamp' => 'Stamp',
-			'user_id' => 'User',
-			'model_id' => 'ID',
+			'id' => Yii::t('app', 'ID'),
+			'old_value' => Yii::t('app', 'Old Value'),
+			'new_value' => Yii::t('app', 'New Value'),
+			'action' => Yii::t('app', 'Action'),
+			'model' => Yii::t('app', 'Type'),
+			'field' => Yii::t('app', 'Field'),
+			'stamp' => Yii::t('app', 'Stamp'),
+			'user_id' => Yii::t('app', 'User'),
+			'model_id' => Yii::t('app', 'Model ID'),
 		);
 	}
 
@@ -92,7 +92,33 @@ class AuditTrail extends CActiveRecord
 		$model_name = $this->model;
 		return $model_name::model();
 	}
+    
+    function findModel(){
+        return $this->getParent()->findByPK($this->model_id);
+    }
 
+    function getOldValue(){
+        $model = $this->findModel();
+        $relations = $model->relations();        
+        foreach($relations as $name=>$relation){
+            if ($relation[2] == $this->field){
+                return $relation[1]::model()->findByPK($this->old_value);
+            }
+        }
+        return $this->old_value;
+    }
+
+    function getNewValue(){
+        $model = $this->findModel();
+        $relations = $model->relations();        
+        foreach($relations as $name=>$relation){
+            if ($relation[2] == $this->field){
+                return $relation[1]::model()->findByPK($this->new_value);
+            }
+        }
+        return $this->new_value;
+    }
+    
 	/**
 	 * Retrieves a list of models based on the current search/filter conditions.
 	 * @return CActiveDataProvider the data provider that can return the models based on the search/filter conditions.
