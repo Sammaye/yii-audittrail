@@ -35,7 +35,7 @@ class AuditTrail extends CActiveRecord
 		if ( isset(Yii::app()->params['AuditTrail']) && isset(Yii::app()->params['AuditTrail']['table']) )
 		    return Yii::app()->params['AuditTrail']['table'];
 		else
-		    return '{{%audit_trail}}';
+		    return '{{audit_trail}}';
 	}
 
 	/**
