@@ -14,6 +14,13 @@ class LoggableBehavior extends CActiveRecordBehavior{
 	public $storeTimestamp = false;
 	public $skipNulls = true;
 
+	/**
+	 * The component name to use for the db connection for the logging, allows one to use
+	 * qc server or whatever for logging
+	 * @var string
+	 */
+	public $db = null;
+
 	public function afterSave($event){
 		$allowedFields = $this->allowed;
 		$ignoredFields = $this->ignored;
@@ -60,10 +67,10 @@ class LoggableBehavior extends CActiveRecordBehavior{
 
 		// Now lets actually write the attributes
 		$this->auditAttributes($newattributes, $oldattributes);
-		
+
 		// Reset old attributes to handle the case with the same model instance updated multiple times
 		$this->setOldAttributes($this->getOwner()->getAttributes());
-				
+
 		return parent::afterSave($event);
 	}
 
@@ -103,7 +110,16 @@ class LoggableBehavior extends CActiveRecordBehavior{
 	}
 
 	public function leaveTrail($action, $name = null, $value = null, $old_value = null){
-		$log			= new AuditTrail();
+		$log = new AuditTrail();
+
+		if($this->db){
+			if(Yii::$app->getComponent($this->db) instanceof CDbConnection){
+				$log->db = Yii::app()->getComponent($this->db);
+			}else{
+				throw new CDbException(Yii::t('yii','Loggable behaviour requires that "db" be a valid CDbConnection application component.'));
+			}
+		}
+
 		$log->old_value = $old_value;
 		$log->new_value = $value;
 		$log->action	= $action;
@@ -112,6 +128,9 @@ class LoggableBehavior extends CActiveRecordBehavior{
 		$log->field		= $name;
 		$log->stamp		= $this->storeTimestamp ? time() : date($this->dateFormat); // If we are storing a timestamp lets get one else lets get the date
 		$log->user_id	= $this->getUserId(); // Lets get the user id
+
+		$log->db = null;
+
 		return $log->save();
 	}
 
